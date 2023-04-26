@@ -7,6 +7,7 @@ typedef struct
     Lnode* next;
 } Lnode;
 
+Lnode* createNode(int value);
 
 #endif
 

@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include "lnode.h"
 #include "mnode.h"
-#include "functions.h"
 
 Lnode* createNode(int value){
     Lnode* newnode = (Lnode*)malloc(sizeof(Lnode));
