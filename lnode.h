@@ -1,10 +1,11 @@
 #ifndef LNODE_H
 #define LNODE_H
 
-struct Lnode
+typedef struct 
 {
-    int val;
-    Lnode* list;
-};
-typedef struct Lnode Lnode;
+    int value;
+    Lnode* next;
+} Lnode;
+
 #endif
+

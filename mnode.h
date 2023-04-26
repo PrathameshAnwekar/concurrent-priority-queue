@@ -4,11 +4,10 @@
 #include <stdbool.h>
 #include "lnode.h"
 
-struct Mnode
+typedef struct 
 {
     bool dirty;
     int counter;
     Lnode* list;
-};
-typedef struct Mnode Mnode;
+}Mnode;
 #endif
