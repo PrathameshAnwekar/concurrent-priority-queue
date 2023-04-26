@@ -1,7 +1,7 @@
-#include "mnode.h";
 #ifndef CONCURRENTPQ_H
 #define CONCURRENTPQ_H
 
+#include "mnode.h";
 
 typedef struct 
 {

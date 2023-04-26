@@ -10,4 +10,9 @@ typedef struct
     int counter;
     Lnode* list;
 }Mnode;
+
+void insertAtBeginning(Mnode head, int value);
+
+void printList(Mnode head);
+
 #endif

@@ -20,8 +20,7 @@ int readData(int numbers[])
     int count = 0;
     int number = 0;
     fp = fopen("data.txt", "r");
-    if (fp == NULL)
-    {
+    if (fp == NULL){
         printf("Error opening file\n");
         return 1;
     }
