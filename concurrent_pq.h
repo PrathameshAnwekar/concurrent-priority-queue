@@ -9,7 +9,8 @@ typedef struct
 } ConcurrentPQ;
 
 ConcurrentPQ* createConcurrentPQ(int size, int numbers[]);
-void insert(ConcurrentPQ* pq, int val);
+void insert(ConcurrentPQ* pq, int value);
 int extractMin(ConcurrentPQ* pq);
+void moundify(ConcurrentPQ* pq, int index);
 #endif
 
