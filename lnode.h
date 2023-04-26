@@ -7,8 +7,6 @@ typedef struct
     Lnode* next;
 } Lnode;
 
-Lnode* createNode(int val);
-Lnode* insertAtBeginning(Lnode* head, int val);
-void printList(Lnode* head);
+
 #endif
 

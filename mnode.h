@@ -10,4 +10,5 @@ typedef struct
     int counter;
     Lnode* list;
 }Mnode;
+
 #endif
