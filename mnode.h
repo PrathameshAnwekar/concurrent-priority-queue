@@ -11,11 +11,12 @@ typedef struct
     Lnode *list;
 } Mnode;
 
-void insertAtBeginning(Mnode head, int value);
-
+void insertAtBeginning(Mnode tree[],int index, int value);
 void printList(Mnode head);
-
-void insert(Mnode tree[], int value);
+void insert(int value, int *depth, Mnode tree[]);
+int randLeaf(int depth);
+int val(Mnode head);
+int findInsertionPoint(int value, int *depth, Mnode tree[]);
 int extractMin(Mnode tree[]);
 void moundify(Mnode tree[], int index, int depth);
 #endif
