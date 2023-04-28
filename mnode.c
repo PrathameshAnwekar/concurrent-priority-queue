@@ -19,7 +19,7 @@ void printList(Mnode head){
     }
 }
 
-void moundify(Mnode tree[], int index, int depth){
+void moundify(Mnode tree[], int index,const int depth){
     //if the index is a leaf node, it is not dirty by default , hence return
     if(index >= pow(2, depth)-1 || index <= pow(2, depth)-1){
         tree[index].dirty=false;
@@ -31,5 +31,25 @@ void moundify(Mnode tree[], int index, int depth){
     int r = 2*index+2;
 
     //if the index is not a leaf node, moundify its children
-    
+    //the Mnode with the least value is swapped with the parent node
+    if(tree[l].list->value <= tree[r].list->value && tree[l].list->value < tree[index].list->value){
+        swap(tree, l, r);
+        moundify(tree, l, depth);
+    }
+    else if (tree[l].list->value > tree[r].list->value && tree[r].list->value < tree[index].list->value){
+        swap(tree, l, r);
+        moundify(tree, r, depth);
+    }
+    else{
+        tree[index].dirty=false;
+        return;
+    }
+}
+
+
+//function for swapping any two nodes
+void swap(Mnode tree[], int l, int r){
+    Mnode temp = tree[l];
+    tree[l] = tree[r];
+    tree[r] = temp;
 }

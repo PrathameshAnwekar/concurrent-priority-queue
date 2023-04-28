@@ -2,6 +2,7 @@
     "files.associations": {
         "functions.h": "c",
         "lnode.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "type_traits": "c"
     }
 }
