@@ -4,15 +4,18 @@
 #include <stdbool.h>
 #include "lnode.h"
 
-typedef struct 
+typedef struct
 {
     bool dirty;
     int counter;
-    Lnode* list;
-}Mnode;
+    Lnode *list;
+} Mnode;
 
 void insertAtBeginning(Mnode head, int value);
 
 void printList(Mnode head);
 
+void insert(Mnode tree[], int value);
+int extractMin(Mnode tree[]);
+void moundify(Mnode tree[], int index, int depth);
 #endif
