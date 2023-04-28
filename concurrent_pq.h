@@ -3,14 +3,13 @@
 
 #include "mnode.h";
 
-typedef struct 
+typedef struct
 {
     Mnode tree[];
 } ConcurrentPQ;
 
-ConcurrentPQ* createConcurrentPQ(int size, int numbers[]);
-void insert(ConcurrentPQ* pq, int value);
-int extractMin(ConcurrentPQ* pq);
-void moundify(ConcurrentPQ* pq, int index);
+ConcurrentPQ *createConcurrentPQ(int size, int numbers[]);
+void insert(ConcurrentPQ pq[], int value);
+int extractMin(ConcurrentPQ pq[]);
+void moundify(ConcurrentPQ pq[], int index);
 #endif
-
