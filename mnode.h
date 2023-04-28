@@ -18,4 +18,5 @@ void printList(Mnode head);
 void insert(Mnode tree[], int value);
 int extractMin(Mnode tree[]);
 void moundify(Mnode tree[], int index, int depth);
+void swap(Mnode tree[], int l, int r);
 #endif
