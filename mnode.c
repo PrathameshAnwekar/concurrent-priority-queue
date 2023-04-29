@@ -77,8 +77,8 @@ void insert(int value, int *depth, Mnode tree[]){
 int binarySearch(Mnode tree[], int leaf, int depth, int value){
     int lo=0,hi=depth,mid,ans=leaf;
     int indexes[depth];
-    for(int j=depth;j>=1;j++){
-        indexes[j]=leaf;
+    for(int j=depth;j>=1;j--){
+        indexes[j-1]=leaf;
         leaf = (leaf-1)/2;
     }
     while(lo<=hi){
