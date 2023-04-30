@@ -60,7 +60,7 @@ void moundify(Mnode tree[], int index, const int depth)
 }
 
 int randLeaf(int depth){
-    int lower = 2*(depth-1)-1, upper =2*(depth)-2;
+    int lower = 2^(depth-1)-1, upper =2^(depth)-2;
     return (rand() % (upper - lower + 1)) + lower;
 }
 
@@ -100,8 +100,9 @@ int findInsertionPoint(int value, int *depth, Mnode tree[]){
         if(val(tree[leaf])>=value){
             return binarySearch(tree,leaf,depth,value);
         }
-    }   
+    }
     depth=depth+1;
+    tree = (Mnode*)realloc(tree,(2^depth)-1);   
     return binarySearch(tree,randLeaf(depth),depth,value);
 }
 
