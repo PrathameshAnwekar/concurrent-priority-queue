@@ -4,48 +4,49 @@
 #include <math.h>
 #include <limits.h>
 
-typedef struct Lnode Lnode; 
+typedef struct Lnode Lnode;
 typedef struct Lnode
 {
     int value;
-    Lnode* next;
+    Lnode *next;
 } Lnode;
 
 typedef struct Mnode
 {
     bool dirty;
     int counter;
-    Lnode* list;
+    Lnode *list;
 } Mnode;
 
 int readData(int numbers[]);
 Lnode *createNode(int value);
-void insertAtBeginning(Mnode* tree,int index, int value);
+void insertAtBeginning(Mnode *tree, int index, int value);
 void printList(Mnode head);
-void insert(int value, int *depth, Mnode* tree);
+void insert(int value, int *depth, Mnode *tree);
 int randLeaf(int depth);
 int val(Mnode head);
-int findInsertionPoint(int value, int *depth, Mnode* tree);
-int extractMin(Mnode* tree, int depth);
-void moundify(Mnode* tree, int index, int depth);
-void swap(Mnode* tree, int l, int r);
-Mnode* realloc_Mnode(int depth, Mnode* tree);
+int findInsertionPoint(int value, int *depth, Mnode *tree);
+int extractMin(Mnode *tree, int depth);
+void moundify(Mnode *tree, int index, int depth);
+void swap(Mnode *tree, int l, int r);
+Mnode *realloc_Mnode(int depth, Mnode *tree);
 
 int MAX_NUMBERS = 100;
 
-int main(int argc, char *argv[])
+int main()
 {
     int depth = 1;
     int numbers[MAX_NUMBERS];
     int count = readData(numbers);
     Mnode *tree;
-    tree = realloc_Mnode(depth,tree);
+    tree = realloc_Mnode(depth, tree);
     printf("The value of tree[0] is currently %d\n", tree[0].list->value);
     for (int i = 0; i < count; i++)
     {
         insert(numbers[i], &depth, tree);
+        printf("\n\n\n\n\n\n");
     }
-    
+
     printf("this is the min %d\n", extractMin(tree, depth));
 
     return 0;
@@ -89,7 +90,7 @@ int readData(int numbers[])
 
 Lnode *createNode(int value)
 {
-    
+    printf("trying to return new node \n");
     Lnode *newnode = (Lnode *)malloc(sizeof(Lnode));
     newnode->value = value;
     newnode->next = NULL;
@@ -97,22 +98,23 @@ Lnode *createNode(int value)
     return newnode;
 }
 
-void insertAtBeginning(Mnode* tree, int index, int value)
+void insertAtBeginning(Mnode *tree, int index, int value)
 {
     printf("Insert at beginning \n");
     Lnode *newNode = createNode(value);
-    Mnode head = tree[index];
-    if (head.counter == 0)
+    printf("created new node \n");
+
+    if (tree[index].counter == 0)
     {
-        head.list = newNode;
+        tree[index].list = newNode;
     }
     else
     {
-        newNode->next = head.list;
-        head.list = newNode;
+        newNode->next = tree[index].list;
+        tree[index].list = newNode;
     }
-    head.counter++;
-    printf("inserted at beginning \n");
+    tree[index].counter++;
+    printf("inserted %d at index %d \n", value, index);
 }
 
 // void printList(Mnode head)
@@ -124,11 +126,11 @@ void insertAtBeginning(Mnode* tree, int index, int value)
 //     }
 // }
 
-void moundify(Mnode* tree, int index, const int depth)
+void moundify(Mnode *tree, int index, const int depth)
 {
     // if the index is a leaf node, it is not dirty by default , hence return
     printf("calling moundify \n");
-    if (index >= pow(2, depth - 1) - 1 || index <= pow(2, depth) - 2)
+    if (index >= (int)pow(2, depth - 1) - 1 || index <= (int)pow(2, depth) - 2)
     {
         tree[index].dirty = false;
         return;
@@ -165,8 +167,9 @@ void moundify(Mnode* tree, int index, const int depth)
 int randLeaf(int depth)
 {
     printf("Called rand leaf at depth %d\n", depth);
-    if(depth==1) return 0;
-    int lower = pow(2,depth-1) - 1, upper = pow(2,depth)-2;
+    if (depth == 1)
+        return 0;
+    int lower = (int)pow(2, depth - 1) - 1, upper = (int)pow(2, depth) - 2;
     int random = (rand() % (upper - lower + 1)) + lower;
     printf("random number generated is %d \n", random);
     return random;
@@ -181,7 +184,7 @@ int val(Mnode head)
         return head.list->value;
 }
 
-void insert(int value, int *depth, Mnode* tree)
+void insert(int value, int *depth, Mnode *tree)
 {
     printf("Called insert function\n");
     int index = findInsertionPoint(value, depth, tree);
@@ -189,7 +192,7 @@ void insert(int value, int *depth, Mnode* tree)
     insertAtBeginning(tree, index, value);
 }
 
-int binarySearch(Mnode* tree, int leaf, int depth, int value)
+int binarySearch(Mnode *tree, int leaf, int depth, int value)
 {
     printf("Called binary search \n");
     int lo = 0, hi = depth, mid, ans = leaf;
@@ -216,13 +219,13 @@ int binarySearch(Mnode* tree, int leaf, int depth, int value)
     return ans;
 }
 
-int findInsertionPoint(int value, int *depth, Mnode* tree)
+int findInsertionPoint(int value, int *depth, Mnode *tree)
 {
     printf("Finding the insertion point\n");
     int threshold = 3;
     for (int i = 1; i <= threshold; i++)
     {
-        int leaf = randLeaf(*depth); 
+        int leaf = randLeaf(*depth);
         printf("Found the rand leaf as %d \n", leaf);
         printf("The value of tree[val] is %d \n", tree[leaf].list->value);
         if (val(tree[leaf]) >= value)
@@ -231,11 +234,11 @@ int findInsertionPoint(int value, int *depth, Mnode* tree)
         }
     }
     *depth = *depth + 1;
-    tree=realloc_Mnode(*depth, tree);
+    tree = realloc_Mnode(*depth, tree);
     return binarySearch(tree, randLeaf(*depth), *depth, value);
 }
 
-int extractMin(Mnode* tree, int depth)
+int extractMin(Mnode *tree, int depth)
 {
     printf("Extracting min \n");
     if (tree[0].list->value == INT_MAX)
@@ -255,7 +258,7 @@ int extractMin(Mnode* tree, int depth)
 }
 
 // function for swapping any two nodes
-void swap(Mnode* tree, int l, int r)
+void swap(Mnode *tree, int l, int r)
 {
     Mnode temp = tree[l];
     tree[l] = tree[r];
@@ -263,11 +266,11 @@ void swap(Mnode* tree, int l, int r)
     printf("swap successful \n");
 }
 
-Mnode* realloc_Mnode(int depth, Mnode* tree)
+Mnode *realloc_Mnode(int depth, Mnode *tree)
 {
     printf("Reallocating tree \n");
-    tree = (Mnode *)realloc(tree, (pow(2,depth) - 1) * sizeof(Mnode));
-    for (int i = pow(2,depth - 1) - 1; i < pow(2,depth) - 1; i++)
+    tree = (Mnode *)realloc(tree, ((int)pow(2, depth) - 1) * sizeof(Mnode));
+    for (int i = (int)pow(2, depth - 1) - 1; i < (int)pow(2, depth) - 1; i++)
     {
         tree[i].dirty = false;
         tree[i].counter = 0;
@@ -275,6 +278,6 @@ Mnode* realloc_Mnode(int depth, Mnode* tree)
         printf("initialised node %d \n", i);
     }
     printf("The value of tree[0] is currently inside realloc %d\n", tree[0].list->value);
-    printf("Realloc successful \n");
+    printf("Realloc successful, size of new tree is %d nodes for depth=%d \n", ((int)pow(2, depth) - 1), depth);
     return tree;
 }
