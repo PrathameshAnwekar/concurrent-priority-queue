@@ -165,8 +165,7 @@ int randLeaf(int depth)
 {
     printf("Called rand leaf at depth %d\n", depth);
     if(depth==1) return 0;
-    // printf("Finding the rand leaf");
-    int upper = pow(2,depth-1) - 1, lower =pow(2,depth)-2;
+    int lower = pow(2,depth-1) - 1, upper = pow(2,depth)-2;
     int random = (rand() % (upper - lower + 1)) + lower;
     printf("random number generated is %d \n", random);
     return random;
@@ -218,6 +217,7 @@ int binarySearch(Mnode* tree, int leaf, int depth, int value)
 
 int findInsertionPoint(int value, int *depth, Mnode* tree)
 {
+    printf("The value of tree[0] is currently %d\n", tree[0].list->value);
     printf("Finding the insertion point\n");
     int threshold = 3;
     for (int i = 1; i <= threshold; i++)
@@ -263,7 +263,7 @@ void swap(Mnode* tree, int l, int r)
     printf("swap successful \n");
 }
 
-void realloc_Mnode(int depth, Mnode *tree)
+void realloc_Mnode(int depth, Mnode* tree)
 {
     printf("Reallocating tree \n");
     tree = (Mnode *)realloc(tree, (pow(2,depth) - 1) * sizeof(Mnode));
