@@ -29,7 +29,7 @@ int findInsertionPoint(int value, int *depth, Mnode* tree);
 int extractMin(Mnode* tree, int depth);
 void moundify(Mnode* tree, int index, int depth);
 void swap(Mnode* tree, int l, int r);
-void realloc_Mnode(int depth, Mnode* tree);
+Mnode* realloc_Mnode(int depth, Mnode* tree);
 
 int MAX_NUMBERS = 100;
 
@@ -39,12 +39,12 @@ int main(int argc, char *argv[])
     int numbers[MAX_NUMBERS];
     int count = readData(numbers);
     Mnode *tree;
-    realloc_Mnode(depth,tree);
+    tree = realloc_Mnode(depth,tree);
     for (int i = 0; i < count; i++)
     {
         insert(numbers[i], &depth, tree);
     }
-    // insert(numbers[0], &depth, tree);
+    
     printf("this is the min %d\n", extractMin(tree, depth));
 
     return 0;
@@ -263,7 +263,7 @@ void swap(Mnode* tree, int l, int r)
     printf("swap successful \n");
 }
 
-void realloc_Mnode(int depth, Mnode* tree)
+Mnode* realloc_Mnode(int depth, Mnode* tree)
 {
     printf("Reallocating tree \n");
     tree = (Mnode *)realloc(tree, (pow(2,depth) - 1) * sizeof(Mnode));
@@ -275,4 +275,5 @@ void realloc_Mnode(int depth, Mnode* tree)
         printf("initialised node %d \n", i);
     }
     printf("Realloc successful \n");
+    return tree;
 }
