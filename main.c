@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "mnode.c"
-#include "mnode.h"
 #include "lnode.h"
+#include "mnode.h"
 
 int readData(int numbers[]);
 
@@ -54,13 +53,12 @@ int readData(int numbers[])
     fclose(fp);
 
     // Print the contents of the array
-    // printf("The integers are: ");
-    // for (int i = 0; i < count; i++)
-    // {
-    //     printf("%d ", numbers[i]);
-    // }
+    printf("The integers are: ");
+    for (int i = 0; i < count; i++)
+    {
+        printf("%d ", numbers[i]);
+    }
     printf("\n");
 
     return count;
 }
-
