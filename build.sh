@@ -2,11 +2,9 @@
 
 # Compile the C project
 rm -f main
+rm -f test.exe
 rm -f *.o
-gcc -c lnode.c
-gcc -c mnode.c
-gcc -c main.c
-gcc -o main main.o lnode.o mnode.o
+gcc main.c -o test
 
 # Run the executable
-./main
+./test.exe
