@@ -168,7 +168,7 @@ int randLeaf(int depth)
     printf("Called rand leaf at depth %d\n", depth);
     if(depth==1) return 0;
     // printf("Finding the rand leaf");
-    int upper = 2 ^ (depth - 1) - 1, lower = 2 ^ (depth)-2;
+    int upper = (2 ^ (depth - 1)) - 1, lower = (2 ^ (depth))-2;
     int random = (rand() % (upper - lower + 1)) + lower;
     printf("random number generated is %d \n", random);
     return random;
