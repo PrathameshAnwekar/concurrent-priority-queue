@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     int count = readData(numbers);
     Mnode *tree;
     tree = realloc_Mnode(depth,tree);
+    printf("The value of tree[0] is currently %d\n", tree[0].list->value);
     for (int i = 0; i < count; i++)
     {
         insert(numbers[i], &depth, tree);
@@ -217,7 +218,6 @@ int binarySearch(Mnode* tree, int leaf, int depth, int value)
 
 int findInsertionPoint(int value, int *depth, Mnode* tree)
 {
-    printf("The value of tree[0] is currently %d\n", tree[0].list->value);
     printf("Finding the insertion point\n");
     int threshold = 3;
     for (int i = 1; i <= threshold; i++)
@@ -231,7 +231,7 @@ int findInsertionPoint(int value, int *depth, Mnode* tree)
         }
     }
     *depth = *depth + 1;
-    realloc_Mnode(*depth, tree);
+    tree=realloc_Mnode(*depth, tree);
     return binarySearch(tree, randLeaf(*depth), *depth, value);
 }
 
@@ -274,6 +274,7 @@ Mnode* realloc_Mnode(int depth, Mnode* tree)
         tree[i].list = createNode(INT_MAX);
         printf("initialised node %d \n", i);
     }
+    printf("The value of tree[0] is currently inside realloc %d\n", tree[0].list->value);
     printf("Realloc successful \n");
     return tree;
 }
