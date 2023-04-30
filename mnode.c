@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <limits.h>
+#include <stdio.h>
+#include <math.h>
 #include "mnode.h"
 
 void insertAtBeginning(Mnode tree[],int index, int value){
@@ -96,14 +98,14 @@ int binarySearch(Mnode tree[], int leaf, int depth, int value){
 int findInsertionPoint(int value, int *depth, Mnode tree[]){
     int threshold = 3;
     for(int i=1;i<=threshold;i++){
-        int leaf = randLeaf(depth);
+        int leaf = randLeaf(*depth);
         if(val(tree[leaf])>=value){
-            return binarySearch(tree,leaf,depth,value);
+            return binarySearch(tree,leaf,*depth,value);
         }
     }
-    depth=depth+1;
-    realloc_Mnode(depth,tree);   
-    return binarySearch(tree,randLeaf(depth),depth,value);
+    *depth=*depth+1;
+    realloc_Mnode(*depth,tree);   
+    return binarySearch(tree,randLeaf(*depth),*depth,value);
 }
 
 int extractMin(Mnode tree[], int depth)
