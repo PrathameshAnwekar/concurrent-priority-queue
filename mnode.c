@@ -102,7 +102,7 @@ int findInsertionPoint(int value, int *depth, Mnode tree[]){
         }
     }
     depth=depth+1;
-    tree = (Mnode*)realloc(tree,(2^depth)-1);   
+    realloc_Mnode(depth,tree);   
     return binarySearch(tree,randLeaf(depth),depth,value);
 }
 
@@ -130,4 +130,15 @@ void swap(Mnode tree[], int l, int r)
     Mnode temp = tree[l];
     tree[l] = tree[r];
     tree[r] = temp;
+}
+
+
+Mnode* realloc_Mnode(int depth, Mnode tree[]) {
+    tree = (Mnode*)realloc(tree,((2^depth)-1)* sizeof(Mnode)); 
+    for(int i = 2^(depth-1) - 1; i < (2^depth)-1; i++) {
+        tree[i].dirty = false;
+        tree[i].counter = 0;
+        tree[i].list = createNode(INT_MAX);
+    }
+    return tree;
 }

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "lnode.h"
 
-typedef struct
+typedef struct Mnode
 {
     bool dirty;
     int counter;
@@ -20,4 +20,5 @@ int findInsertionPoint(int value, int *depth, Mnode tree[]);
 int extractMin(Mnode tree[], int depth);
 void moundify(Mnode tree[], int index, int depth);
 void swap(Mnode tree[], int l, int r);
+Mnode* realloc_Mnode(int depth, Mnode tree[]);
 #endif
