@@ -3,7 +3,8 @@
         "functions.h": "c",
         "lnode.h": "c",
         "stdlib.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "mnode.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -8,7 +8,7 @@ typedef struct Mnode
 {
     bool dirty;
     int counter;
-    Lnode *list;
+    Lnode* list;
 } Mnode;
 
 void insertAtBeginning(Mnode tree[],int index, int value);
