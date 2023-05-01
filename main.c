@@ -38,8 +38,7 @@ int main()
     int depth = 1;
     int numbers[MAX_NUMBERS];
     int count = readData(numbers);
-    Mnode *tree;
-    tree = realloc_Mnode(depth, tree);
+    Mnode *tree = realloc_Mnode(depth, tree);
     printf("The value of tree[0] is currently %d\n", tree[0].list->value);
     for (int i = 0; i < count; i++)
     {
@@ -264,18 +263,38 @@ void swap(Mnode *tree, int l, int r)
     printf("swap successful \n");
 }
 
+// Mnode *realloc_Mnode(int depth, Mnode *tree)
+// {
+//     printf("Reallocating tree for depth=%d\n", depth);
+//     tree = (Mnode *)realloc(tree, ((int)pow(2, depth) - 1) * sizeof(Mnode));
+//     for (int i = (int)pow(2, depth - 1) - 1; i < (int)pow(2, depth) - 1; i++)
+//     {
+//         tree[i].dirty = false;
+//         tree[i].counter = 0;
+//         tree[i].list = createNode(INT_MAX);
+//         printf("initialised node %d \n", i);
+//     }
+//     // printf("The value of tree[0] is currently inside realloc %d\n", tree[0].list->value);
+//     printf("Realloc successful, size of new tree is %d nodes for depth=%d \n", ((int)pow(2, depth) - 1), depth);
+//     return tree;
+// }
 Mnode *realloc_Mnode(int depth, Mnode *tree)
 {
-    printf("Reallocating tree for depth=%d\n", depth);
-    tree = (Mnode *)realloc(tree, ((int)pow(2, depth) - 1) * sizeof(Mnode));
-    for (int i = (int)pow(2, depth - 1) - 1; i < (int)pow(2, depth) - 1; i++)
+    printf("Reallocating tree \n");
+    // tree = (Mnode *)realloc(tree, ((int)pow(2, depth) - 1) * sizeof(Mnode));
+    // for (int i = (int)pow(2, depth - 1) - 1; i < (int)pow(2, depth) - 1; i++)
+    tree= (Mnode*)malloc(1000*sizeof(Mnode));
+    for(int i=0;i<100;i++)
     {
         tree[i].dirty = false;
         tree[i].counter = 0;
         tree[i].list = createNode(INT_MAX);
-        printf("initialised node %d \n", i);
+        // printf("initialised node %d \n", i);
+       // printf("initialised node %d \n", i);        
     }
-    // printf("The value of tree[0] is currently inside realloc %d\n", tree[0].list->value);
+    printf("The value of tree[0] is currently inside realloc %d\n", tree[0].list->value);
     printf("Realloc successful, size of new tree is %d nodes for depth=%d \n", ((int)pow(2, depth) - 1), depth);
+
+   // printf("Realloc successful, size of new tree is %d nodes for depth=%d \n", ((int)pow(2, depth) - 1), depth);
     return tree;
 }
