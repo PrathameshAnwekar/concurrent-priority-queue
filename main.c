@@ -273,8 +273,8 @@ void swap(Mnode *tree, int l, int r)
 Mnode *realloc_Mnode(int depth, Mnode *tree)
 {
     printf("Reallocating tree \n");
-    tree= (Mnode*)malloc(100*sizeof(Mnode));
-    for(int i=0;i<100;i++)
+    tree= (Mnode*)malloc(1000*sizeof(Mnode));
+    for(int i=0;i<1000;i++)
     {
         tree[i].dirty = false;
         tree[i].counter = 0;
