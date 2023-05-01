@@ -38,16 +38,15 @@ int main()
     int depth = 1;
     int numbers[MAX_NUMBERS];
     int count = readData(numbers);
-    Mnode *tree;
-    tree = realloc_Mnode(depth, tree);
+    Mnode *tree= realloc_Mnode(depth, tree);
     printf("The value of tree[0] is currently %d\n", tree[0].list->value);
     for (int i = 0; i < count; i++)
     {
         insert(numbers[i], &depth, tree);
         printf("\n\n\n\n\n\n");
     }
-
-    printf("this is the min %d\n", extractMin(tree, depth));
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+   // printf("this is the min %d\n", extractMin(tree, depth));
 
     return 0;
 }
@@ -130,7 +129,9 @@ void moundify(Mnode *tree, int index, const int depth)
 {
     // if the index is a leaf node, it is not dirty by default , hence return
     printf("calling moundify \n");
-    if (index >= (int)pow(2, depth - 1) - 1 || index <= (int)pow(2, depth) - 2)
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    //// if the index is a leaf node, it is not dirty by default , hence return should be && instead of ||
+    if (index >= (int)pow(2, depth - 1) - 1 && index <= (int)pow(2, depth) - 2)
     {
         tree[index].dirty = false;
         return;
@@ -146,13 +147,17 @@ void moundify(Mnode *tree, int index, const int depth)
     // child l <= child r
     if ((tree[l].list->value <= tree[r].list->value) && (tree[l].list->value < tree[index].list->value))
     {
-        swap(tree, l, r);
+        //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+        // swapping parent with left instead of left with right
+        swap(tree, l, index); 
         moundify(tree, l, depth);
     }
     // child l > child r
     else if ((tree[l].list->value > tree[r].list->value) && (tree[r].list->value < tree[index].list->value))
     {
-        swap(tree, l, r);
+        //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+        // swapping parent with right instead of left with right
+        swap(tree, r, index);
         moundify(tree, r, depth);
     }
     // properly moundified
@@ -222,7 +227,10 @@ int binarySearch(Mnode *tree, int leaf, int depth, int value)
 int findInsertionPoint(int value, int *depth, Mnode *tree)
 {
     printf("Finding the insertion point\n");
-    int threshold = 3;
+    int cur_depth=*depth;
+    int threshold = pow(2,cur_depth-1);
+    /*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+     changes required, assigned complete search for the time being*/ 
     for (int i = 1; i <= threshold; i++)
     {
         int leaf = randLeaf(*depth);
@@ -234,7 +242,8 @@ int findInsertionPoint(int value, int *depth, Mnode *tree)
         }
     }
     *depth = *depth + 1;
-    tree = realloc_Mnode(*depth, tree);
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    //tree = realloc_Mnode(*depth, tree);
     return binarySearch(tree, randLeaf(*depth), *depth, value);
 }
 
@@ -269,15 +278,24 @@ void swap(Mnode *tree, int l, int r)
 Mnode *realloc_Mnode(int depth, Mnode *tree)
 {
     printf("Reallocating tree \n");
-    tree = (Mnode *)realloc(tree, ((int)pow(2, depth) - 1) * sizeof(Mnode));
-    for (int i = (int)pow(2, depth - 1) - 1; i < (int)pow(2, depth) - 1; i++)
+    tree= (Mnode*)malloc(10000*sizeof(Mnode));
+//    tree = (Mnode *)realloc(tree, ((int)pow(2, depth) - 1) * sizeof(Mnode));
+    // for (int i = (int)pow(2, depth - 1) - 1; i < (int)pow(2, depth) - 1; i++)
+    // {
+    //     tree[i].dirty = false;
+    //     tree[i].counter = 0;
+    //     tree[i].list = createNode(INT_MAX);
+    //     printf("initialised node %d \n", i);
+    // }
+    for(int i=0;i<1000;i++)
     {
         tree[i].dirty = false;
         tree[i].counter = 0;
         tree[i].list = createNode(INT_MAX);
-        printf("initialised node %d \n", i);
+       // printf("initialised node %d \n", i);        
     }
     printf("The value of tree[0] is currently inside realloc %d\n", tree[0].list->value);
-    printf("Realloc successful, size of new tree is %d nodes for depth=%d \n", ((int)pow(2, depth) - 1), depth);
+    
+   // printf("Realloc successful, size of new tree is %d nodes for depth=%d \n", ((int)pow(2, depth) - 1), depth);
     return tree;
 }
