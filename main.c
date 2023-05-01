@@ -103,7 +103,6 @@ void insertAtBeginning(Mnode *tree, int index, int value)
     printf("Insert at beginning \n");
     Lnode *newNode = createNode(value);
     printf("created new node \n");
-
     if (tree[index].counter == 0)
     {
         tree[index].list = newNode;
