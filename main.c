@@ -193,6 +193,12 @@ int findInsertionPoint(int value, int *depth, Mnode *tree)
     return binarySearch(tree, randLeaf(*depth), *depth, value);
 }
 
+/*  
+    extracts (removes) the root element, which is the
+    minimum element and returns it. It also allocates the 
+    next element in the list as the new list head and then
+    calls the moundify function.
+*/
 int extractMin(Mnode *tree, int depth)
 {
     if (tree[0].list == NULL)
