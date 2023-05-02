@@ -102,7 +102,9 @@ int min(int a, int b){
 */
 int findInsertionPoint(int value, int *depth, Mnode *tree)
 {
-    int threshold = min((int)pow(2, *depth ), 100);
+    int threshold;
+    if(*depth==1) threshold = 1;
+    else threshold = min((int)pow(2, *depth-2), 100);
     for (int i = 1; i <= threshold; i++)
     {
         int leaf = randLeaf(*depth);
