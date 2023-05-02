@@ -8,4 +8,4 @@ Steps to run and execute program
 gcc main.c -o test
 ./test.exe
 
-After this the program will insert all the objects in 'data.txt' to the tree and then perform extractMin() till the tree is empty
+After this the program will insert all the objects in 'data.txt' to the tree and then perform extractMin() and print the value till the tree is empty
