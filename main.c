@@ -201,10 +201,7 @@ int findInsertionPoint(int value, int *depth, Mnode *tree)
 */
 int extractMin(Mnode *tree, int depth)
 {
-    if (tree[0].list == NULL)
-    {
-        return INT_MAX;
-    }
+    
     // minimum value is stored in the root node's list first element
     int result = tree[0].list->value;
     Lnode *temp = tree[0].list;
