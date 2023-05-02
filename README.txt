@@ -6,6 +6,6 @@ Steps to run and execute program
 4. Run the following commands one after the another
 
 gcc main.c -o test
-./test.exe
+./test
 
 After this the program will insert all the objects in 'data.txt' to the tree and then perform extractMin() and print the value till the tree is empty
