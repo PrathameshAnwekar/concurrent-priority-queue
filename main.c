@@ -113,7 +113,7 @@ int findInsertionPoint(int value, int *depth, Mnode *tree)
             return binarySearch(tree, leaf, *depth, value);
         }
     }
-    *depth = (*depth) + 1;
+    *depth = *depth + 1;
     return binarySearch(tree, randLeaf(*depth), *depth, value);
 }
 
