@@ -29,7 +29,7 @@ int binarySearch(Mnode *tree, int leaf, int depth, int value);
 int extractMin(Mnode *tree, int depth);
 void moundify(Mnode *tree, int index, int depth);
 void swap(Mnode *tree, int l, int r);
-Mnode *realloc_Mnode(int depth, Mnode *tree);
+Mnode *malloc_Mnode(int depth, Mnode *tree);
 
 int main()
 {
@@ -37,7 +37,7 @@ int main()
     int depth = 1;
 
     //initializing the tree / priority queue with depth 1.
-    Mnode *tree = realloc_Mnode(depth, tree);
+    Mnode *tree = malloc_Mnode(depth, tree);
 
     FILE *fp;
     int number;
@@ -233,7 +233,7 @@ void swap(Mnode *tree, int l, int r)
     tree[r] = temp;
 }
 
-Mnode *realloc_Mnode(int depth, Mnode *tree)
+Mnode *malloc_Mnode(int depth, Mnode *tree)
 {
     tree = (Mnode *)malloc(1000000 * sizeof(Mnode));
     for (int i = 0; i < 1000000; i++)
