@@ -31,51 +31,40 @@ void moundify(Mnode *tree, int index, int depth);
 void swap(Mnode *tree, int l, int r);
 Mnode *realloc_Mnode(int depth, Mnode *tree);
 
-int MAX_NUMBERS = 105009;
-
 int main()
 {
-    int depth = 1;
-    int numbers[MAX_NUMBERS];
-    int count = readData(numbers);
-    Mnode *oldTree = (Mnode *)malloc(sizeof(Mnode));
-    Mnode *tree = realloc_Mnode(depth, oldTree);
-    printf("The value of tree[0] is currently %d\n", tree[0].list->value);
-    for (int i = 0; i < 10; i++)
-    {
-        insert(numbers[i], &depth, tree);
-        printf("\n\n\n\n\n\n");
-    }
-
-    for(int i = 0; i < 10; i++)printf("this is the min %d\n", extractMin(tree, depth));
-    return 0;
-}
-
-int readData(int numbers[])
-{
-    FILE *fp;
     int count = 0;
+    int depth = 1;
+
+    //initializing the tree / priority queue with depth 1.
+    Mnode *tree = realloc_Mnode(depth, tree);
+
+    FILE *fp;
     int number;
+
+    //opening the file
     fp = fopen("data.txt", "r");
     if (fp == NULL)
     {
         printf("Error opening file\n");
         return 1;
     }
+
+    //inseting all the numbers in the file into the tree.
     while (fscanf(fp, "%d", &number) != EOF)
     {
-        if (count >= MAX_NUMBERS)
-        {
-            printf("Too many numbers in file\n");
-            return 1;
-        }
-        numbers[count] = number;
+        insert(number, &depth, tree);
         count++;
     }
     fclose(fp);
-    return count;
+
+    // extracting all the numbers from the tree to verify the correctness of the program.
+    for (int i = 0; i < count; i++)
+        printf("This is the extracted minimum number: %d \n ", extractMin(tree, depth));
+    return 0;
 }
 
+// creates a new Lnode with the given value and returns it.
 Lnode *createNode(int value)
 {
     Lnode *newnode = (Lnode *)malloc(sizeof(Lnode));
@@ -84,12 +73,26 @@ Lnode *createNode(int value)
     return newnode;
 }
 
+/*  inserts a new value into the tree.
+    The function first finds the insertion point
+    and then inserts the value at the beginning 
+    of the list of the corresponding Mnode.  
+*/ 
 void insert(int value, int *depth, Mnode *tree)
 {
     int index = findInsertionPoint(value, depth, tree);
     insertAtBeginning(tree, index, value);
 }
 
+/*  firstly it finds a suitable leaf node for insertion.
+    Once found, it calls binary search on the path from
+    the root to the leaf node to find the insertion point.
+    If too many unsuitable leaves are selected
+    (indicated by a tunable THRESHOLD parameter), the
+    mound is expanded by one level.
+    Then bianry search is called on a random leaf node
+    present in the new depth.
+*/
 int findInsertionPoint(int value, int *depth, Mnode *tree)
 {
     int threshold = 3;
@@ -102,10 +105,12 @@ int findInsertionPoint(int value, int *depth, Mnode *tree)
         }
     }
     *depth = (*depth) + 1;
-    tree = realloc_Mnode(*depth, tree);
     return binarySearch(tree, randLeaf(*depth), *depth, value);
 }
 
+/*  inserts a new node at the beginning of the list
+    of the corresponding Mnode.
+*/
 void insertAtBeginning(Mnode *tree, int index, int value)
 {
     Lnode *newNode = createNode(value);
@@ -114,6 +119,7 @@ void insertAtBeginning(Mnode *tree, int index, int value)
     tree[index].counter++;
 }
 
+//returns a index of a random leaf node at the given depth.
 int randLeaf(int depth)
 {
     if (depth == 1)
@@ -123,21 +129,23 @@ int randLeaf(int depth)
     return random;
 }
 
+//returns the first value of an Mnode's list
 int val(Mnode head)
 {
-    if (head.list == NULL)
-        return INT_MAX;
-    else
-        return head.list->value;
+    return head.list->value;
 }
 
+/*  performs a binary search on the path from the root to 
+    the leaf node. The function returns the index of the 
+    node where the value should be inserted.
+*/
 int binarySearch(Mnode *tree, int leaf, int depth, int value)
 {
-    int lo = 0, hi = depth-1, mid, ans = leaf;
-    int indexes[depth];
-    for (int j = depth; j >= 1; j--)
+    int lo = 0, hi = depth - 1, mid, ans = leaf;
+    int indexes[depth]; //stores the indexes of all Mnodes on the path from the root to the leaf node.
+    for (int j = depth-1; j >= 0; j--)
     {
-        indexes[j - 1] = leaf;
+        indexes[j] = leaf;
         leaf = (leaf - 1) / 2;
     }
     while (lo <= hi)
@@ -156,6 +164,33 @@ int binarySearch(Mnode *tree, int leaf, int depth, int value)
     return ans;
 }
 
+/*  
+    extracts (removes) the root element, which is the
+    minimum element and returns it. It also allocates the 
+    next element in the list as the new list head and then
+    calls the moundify function.
+*/
+int extractMin(Mnode *tree, int depth)
+{
+    
+    // minimum value is stored in the root node's list first element
+    int result = tree[0].list->value;
+    Lnode *temp = tree[0].list;
+    tree[0].list = temp->next;
+    temp->next = NULL;
+    tree[0].dirty = true;
+    free(temp);
+
+    // moundify the tree, starting from the root node
+    moundify(tree, 0, depth);
+    return result;
+}
+
+/*  moundify operation as described in the paper.
+    The function 'moundifies' the tree from the 
+    given index until the property for 
+    mounidification is satisfied.
+*/
 void moundify(Mnode *tree, int index, int depth)
 {
     // if the index is a leaf node, it is not dirty by default , hence return
@@ -190,26 +225,7 @@ void moundify(Mnode *tree, int index, int depth)
     }
 }
 
-int extractMin(Mnode *tree, int depth)
-{
-    if (tree[0].list == NULL)
-    {
-        return INT_MAX;
-    }
-    // minimum value is stored in the root node's list first element
-    int result = tree[0].list->value;
-    Lnode *temp = tree[0].list;
-    tree[0].list = temp->next;
-    temp->next=NULL;
-    tree[0].dirty = true;
-    free(temp);
-
-    // moundify the tree, starting from the root node
-    moundify(tree, 0, depth);
-    return result;
-}
-
-// function for swapping any two nodes
+// function for swapping two nodes
 void swap(Mnode *tree, int l, int r)
 {
     Mnode temp = tree[l];
@@ -219,12 +235,12 @@ void swap(Mnode *tree, int l, int r)
 
 Mnode *realloc_Mnode(int depth, Mnode *tree)
 {
-    tree= (Mnode*)malloc(1000000*sizeof(Mnode));
-    for(int i=0;i<1000000;i++)
+    tree = (Mnode *)malloc(1000000 * sizeof(Mnode));
+    for (int i = 0; i < 1000000; i++)
     {
         tree[i].dirty = false;
         tree[i].counter = 0;
-        tree[i].list = createNode(INT_MAX);    
+        tree[i].list = createNode(INT_MAX);
     }
     return tree;
 }
