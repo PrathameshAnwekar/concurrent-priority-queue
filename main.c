@@ -31,7 +31,7 @@ void moundify(Mnode *tree, int index, int depth);
 void swap(Mnode *tree, int l, int r);
 Mnode *realloc_Mnode(int depth, Mnode *tree);
 
-int MAX_NUMBERS = 100;
+int MAX_NUMBERS = 105009;
 
 int main()
 {
@@ -47,7 +47,6 @@ int main()
     }
 
     for(int i = 0; i < count; i++)printf("this is the min %d\n", extractMin(tree, depth));
-
     return 0;
 }
 
@@ -89,11 +88,11 @@ int readData(int numbers[])
 
 Lnode *createNode(int value)
 {
-    printf("trying to return new node \n");
+    // printf("trying to return new node \n");
     Lnode *newnode = (Lnode *)malloc(sizeof(Lnode));
     newnode->value = value;
     newnode->next = NULL;
-    printf("returning new lnode\n");
+    // printf("returning new lnode\n");
     return newnode;
 }
 
@@ -273,8 +272,8 @@ void swap(Mnode *tree, int l, int r)
 Mnode *realloc_Mnode(int depth, Mnode *tree)
 {
     printf("Reallocating tree \n");
-    tree= (Mnode*)malloc(1000*sizeof(Mnode));
-    for(int i=0;i<1000;i++)
+    tree= (Mnode*)malloc(1000000*sizeof(Mnode));
+    for(int i=0;i<1000000;i++)
     {
         tree[i].dirty = false;
         tree[i].counter = 0;
